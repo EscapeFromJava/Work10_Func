@@ -1,8 +1,9 @@
 ﻿#include <iostream>
+#include <math.h>
 
 using namespace std;
 
-const int SIZE = 5;
+const int SIZE = 7;
 void printArray(int mas[SIZE]);
 void inputArray(int mas[SIZE]);
 int sumArray(int mas[SIZE]);
@@ -36,7 +37,7 @@ int main() {
 	cout << "[4] Номер минимального элемента массива = " << searchMaxNeg(massive) << endl; //[4]
 	swapMinMaxArray(massive); //[5]
 	volumeNumArray(massive); //[6]
-	//volumeNearNumArray(massive); //[7]
+	volumeNearNumArray(massive); //[7]
 	averageMin2MaxArray(massive); //[8]
 	deviationArray(massive); //[9]
 	return 0;
@@ -138,8 +139,6 @@ void volumeNumArray(int mas[SIZE]) //6
 void volumeNearNumArray(int mas[SIZE]) //7
 {
 	int temp, nearNum, m;
-	cout << "[7] Введите число, относительно которого следует найти наиболее близкое: " << endl;
-	cin >> nearNum;
 	for (int i = 0; i < SIZE; i++) {
 		for (int j = 0; j < SIZE - 1; j++) {
 			if (mas[j] > mas[j + 1]) {
@@ -149,12 +148,29 @@ void volumeNearNumArray(int mas[SIZE]) //7
 			}
 		}
 	}
-	for (int i = 0; i < SIZE; i++) { // остановился тут
+	cout << "[7] текущий массив: ";
+	for (int i = 0; i < SIZE; i++) //вывод массива после сортировки
+		cout << mas[i] << " ";
+	cout << endl;
+	cout << "[7] Введите число, относительно которого следует найти наиболее близкое: ";
+	cin >> nearNum;
+	for (int i = 0; i < SIZE; i++) {
 		if (mas[i] == nearNum) {
 			m = i;
 		}
 	}
-	cout << mas[m - 1] << " 22" << mas[m + 1] << endl;
+	if (m - 1 >= 0 && m + 1 <= SIZE-1) {
+		cout << "Минимально близкое значение = " << mas[m - 1] << "; Максимально близкое значение = " << mas[m + 1] << endl;
+	}
+	if (m - 1 < 0) {
+		cout << "Минимально близкое значение выходит за предел массива" << endl;
+		cout << "Максимально близкое  = " << mas[m + 1] << endl;
+	}
+	if (m + 1 > SIZE-1) {
+		cout << "Максимально близкое значение выходит за предел массива" << endl;
+		cout << "Минимально близкое = " << mas[m - 1] << endl;
+	}
+	
 }
 
 void averageMin2MaxArray(int mas[SIZE]) //8
@@ -188,6 +204,6 @@ void deviationArray(int mas[SIZE]) //9
 	cout << "[9] Cреднее арифметическое всех элементов массива = " << sum << endl;
 	for (int i = 0; i < SIZE; i++) {
 		deviation = (mas[i] / sum)*100;
-		cout << "Отколонение [" << i << "] элемента = " << mas[i] << " от среднего значения = " << deviation << "%" << endl;
+		cout << "Отколонение [" << i << "] элемента = " << mas[i] << " от среднего значения = " << abs(deviation) << "%" << endl;
 	}
 }
