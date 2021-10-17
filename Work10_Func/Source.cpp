@@ -13,7 +13,7 @@ int searchMaxNeg(int mas[SIZE]);
 void swapMinMaxArray(int mas[SIZE]);
 void volumeNumArray(int mas[SIZE]);
 void volumeNearNumArray(int mas[SIZE]);
-void averageMin2MaxArray(int mas[SIZE]);
+int averageMin2MaxArray(int mas[SIZE]);
 void deviationArray(int mas[SIZE]);
 
 int main() {
@@ -21,7 +21,7 @@ int main() {
 	int massive[SIZE];
 	srand(time(NULL));
 	for (int i = 0; i < SIZE; i++)
-		massive[i] = rand()%10-5;
+		massive[i] = rand() % 10 - 5;
 	/*massive[0] = 123;
 	*massive += 2;
 	cout << massive[0] << endl;
@@ -38,7 +38,7 @@ int main() {
 	swapMinMaxArray(massive); //[5]
 	volumeNumArray(massive); //[6]
 	volumeNearNumArray(massive); //[7]
-	averageMin2MaxArray(massive); //[8]
+	cout << "[8] Cреднее арифметическое всех элементов массива, за исключением двух максимальных = " << averageMin2MaxArray(massive) << endl; //[8]
 	deviationArray(massive); //[9]
 	return 0;
 }
@@ -120,7 +120,6 @@ void swapMinMaxArray(int mas[SIZE]) //5
 	for (int i = 0; i < SIZE; i++)
 		cout << mas[i] << " ";
 	cout << " " << endl;
-	
 }
 
 void volumeNumArray(int mas[SIZE]) //6
@@ -133,47 +132,25 @@ void volumeNumArray(int mas[SIZE]) //6
 			volume++;
 		}
 	}
-	cout << "[6] Количество вхождений числа " << x << " равно = " << volume << endl;
+	cout << "[6] Количество вхождений числа " << x << " равно = " << volume << endl; //[6]
 }
 
-void volumeNearNumArray(int mas[SIZE]) //7
+void volumeNearNumArray(int mas[SIZE])
 {
-	int temp, nearNum, m;
+	int x, temp1, temp2 = -32768, masI = 0;
+	cout << "[7] Введите число: ";
+	cin >> x;
 	for (int i = 0; i < SIZE; i++) {
-		for (int j = 0; j < SIZE - 1; j++) {
-			if (mas[j] > mas[j + 1]) {
-				temp = mas[j];
-				mas[j] = mas[j + 1];
-				mas[j + 1] = temp;
-			}
+		temp1 = x - mas[i];
+		if (abs(temp1) < abs(temp2)) {
+			temp2 = temp1;
+			masI = i;
 		}
 	}
-	cout << "[7] текущий массив: ";
-	for (int i = 0; i < SIZE; i++) //вывод массива после сортировки
-		cout << mas[i] << " ";
-	cout << endl;
-	cout << "[7] Введите число, относительно которого следует найти наиболее близкое: ";
-	cin >> nearNum;
-	for (int i = 0; i < SIZE; i++) {
-		if (mas[i] == nearNum) {
-			m = i;
-		}
-	}
-	if (m - 1 >= 0 && m + 1 <= SIZE-1) {
-		cout << "Минимально близкое значение = " << mas[m - 1] << "; Максимально близкое значение = " << mas[m + 1] << endl;
-	}
-	if (m - 1 < 0) {
-		cout << "Минимально близкое значение выходит за предел массива" << endl;
-		cout << "Максимально близкое  = " << mas[m + 1] << endl;
-	}
-	if (m + 1 > SIZE-1) {
-		cout << "Максимально близкое значение выходит за предел массива" << endl;
-		cout << "Минимально близкое = " << mas[m - 1] << endl;
-	}
-	
+	cout << "[7] Номер элемента, наиболее близкого к числу " << x << " равен = " << masI << " " << endl; //[6]
 }
 
-void averageMin2MaxArray(int mas[SIZE]) //8
+int averageMin2MaxArray(int mas[SIZE]) //8
 {
 	int temp;
 	double sum = 0;
@@ -190,7 +167,7 @@ void averageMin2MaxArray(int mas[SIZE]) //8
 		sum += mas[i];
 	}
 	sum /= (SIZE - 2);
-	cout << "[8] Cреднее арифметическое всех элементов массива, за исключением двух максимальных = " << sum << endl;
+	return sum;
 }
 
 void deviationArray(int mas[SIZE]) //9
@@ -203,7 +180,7 @@ void deviationArray(int mas[SIZE]) //9
 	sum /= SIZE;
 	cout << "[9] Cреднее арифметическое всех элементов массива = " << sum << endl;
 	for (int i = 0; i < SIZE; i++) {
-		deviation = (mas[i] / sum)*100;
+		deviation = (mas[i] / sum) * 100;
 		cout << "Отколонение [" << i << "] элемента = " << mas[i] << " от среднего значения = " << abs(deviation) << "%" << endl;
 	}
 }
